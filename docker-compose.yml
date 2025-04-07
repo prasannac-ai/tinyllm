@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  whisper:
+    image: onerahmet/openai-whisper-asr-webservice:latest
+    ports:
+      - "9000:9000"
+    environment:
+      - ASR_MODEL=base
+
+  llm:
+    image: ollama/ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+      - ./start-ollama.sh:/start-ollama.sh
+    entrypoint: [ "/bin/sh", "-c" ]
+    command: "/start-ollama.sh"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:11434" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  # tts:
+  #   image: ghcr.io/coqui-ai/tts-cpu
+  #   ports:
+  #     - "5002:5002"
+
+  api:
+    build: ./app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - whisper
+      - llm
+      # - tts
+
+volumes:
+  ollama_data:

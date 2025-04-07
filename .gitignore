@@ -1,0 +1,21 @@
+# Virtual environment
+auctionenv/
+venv/
+.env
+
+# Python
+__pycache__/
+*.pyc
+
+# Django
+db.sqlite3
+*.log
+
+# OS files
+.DS_Store
+
+# IDEs/editors
+.vscode/
+.idea/
+
+firebase_service_account.json
