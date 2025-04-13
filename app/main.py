@@ -4,6 +4,7 @@ import io
 from whisper_client import transcribe_audio
 from llm_client import query_llm
 from tts_client import synthesize_voice
+from llm_client import query_with_text_rag
 
 app = FastAPI()
 
@@ -16,7 +17,11 @@ async def ask(file: UploadFile):
     audio_bytes = await file.read()
     question = transcribe_audio(audio_bytes)
     print(question)
-    response = query_llm(question)
-    print(response)
+    response = query_with_text_rag("What does VVCE stand for?")
+    print("...."+response)
+
+    response = query_with_text_rag("Who is the principal of VVCE")
+    print(" LLM Response:", response)
+    
     audio_output = synthesize_voice(response)
     return StreamingResponse(io.BytesIO(audio_output), media_type="audio/wav")

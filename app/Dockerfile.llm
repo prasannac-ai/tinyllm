@@ -1,0 +1,13 @@
+# Dockerfile.llm
+
+FROM ollama/ollama
+
+# Copy custom start script into container
+COPY start-ollama.sh /start-ollama.sh
+
+# Make sure it's executable
+RUN chmod +x /start-ollama.sh
+
+# Healthcheck remains in docker-compose.yml
+ENTRYPOINT ["/bin/sh", "-c"]
+CMD ["/start-ollama.sh"]
