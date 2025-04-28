@@ -29,6 +29,14 @@ services:
     depends_on:
       - whisper
       - llm
+  tts:
+    image: synesthesiam/mozillatts:latest
+    ports:
+      - "5002:5002"
+    environment:
+      - TTS_MODEL=tts_models/en/ljspeech/tacotron2-DDC
+    depends_on:
+      - api
 
 volumes:
   ollama_data:

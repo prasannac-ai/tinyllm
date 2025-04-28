@@ -6,7 +6,7 @@ from build_knowledge_base import build_knowledge_base
 def query_llm(prompt: str) -> str:
     url = "http://llm:11434/api/generate"
     payload = {
-        "model": "tinyllama",
+        "model": "gemma:2b",
         "prompt": prompt,
         "stream": False
     }
@@ -37,24 +37,3 @@ def query_with_text_rag(question: str, directory_path: str = "./texts") -> str:
     return query_llm(prompt=prompt)
 
 
-# from retriever import Retriever
-# from build_knowledge_base import build_knowledge_base
-# from llm_client import query_llm
-
-# def query_with_text_rag(question: str, directory_path: str = "./texts") -> str:
-#     print("Context:", "in build_knowledge_base")
-#     texts = build_knowledge_base(directory_path)
-#     print("Context:", "Going in Retriever")
-#     retriever = Retriever(texts)
-#     print("Context:", "Out of Retriever")
-#     context = "\n".join(retriever.get_relevant_docs(question, k=3))
-#     print("Context:", context)
-
-#     prompt = f"""Use the following context to answer the question.
-
-# Context:
-# {context}
-
-# Question: {question}
-# Answer:"""
-#     return query_llm(prompt)

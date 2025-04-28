@@ -17,11 +17,8 @@ async def ask(file: UploadFile):
     audio_bytes = await file.read()
     question = transcribe_audio(audio_bytes)
     print(question)
-    response = query_with_text_rag("What does VVCE stand for?")
+    response = query_with_text_rag(question)
     print("...."+response)
-
-    response = query_with_text_rag("Who is the principal of VVCE")
-    print(" LLM Response:", response)
     
     audio_output = synthesize_voice(response)
     return StreamingResponse(io.BytesIO(audio_output), media_type="audio/wav")
